@@ -19,7 +19,7 @@ const options = {
         deprecationErrors: true,
     }
 };
-
+app.options('*', cors());
 let client;
 const connectToMongoDB = async () => {
     if (!client) {

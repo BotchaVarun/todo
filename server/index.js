@@ -27,7 +27,7 @@ app.use((req, res, next) => {
     next();
 });
 
-
+app.options('*', cors());
 async function startServer() {
     await connectToMongoDB();
     app.listen(port, () => {

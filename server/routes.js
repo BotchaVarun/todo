@@ -13,7 +13,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
-
+app.options('*', cors());
 const getCollection = () => {
     const client = getConnectedClient();
     const collection = client.db("todosdb").collection("todos");
