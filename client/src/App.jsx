@@ -7,7 +7,7 @@ export default function App() {
 
   useEffect(() => {
     async function getTodos() {
-      const res = await fetch("/api/todos");
+      const res = await fetch("https://todo-hj8l.onrender.com/api/todos");
       const todos = await res.json();
 
       setTodos(todos);
@@ -18,7 +18,7 @@ export default function App() {
   const createNewTodo = async (e) => {
     e.preventDefault();
     if (content.length > 3) {
-      const res = await fetch("/api/todos", {
+      const res = await fetch("https://todo-hj8l.onrender.com/api/todos", {
         method: "POST",
         body: JSON.stringify({ todo: content }),
         headers: {
