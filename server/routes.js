@@ -1,30 +1,18 @@
 const express = require("express");
-const router = express.Router();
 const { getConnectedClient } = require("./database");
 const { ObjectId } = require("mongodb");
-const cors = require('cors');
-const app = express();
-app.use(express.json());
-// Enable CORS for all requests
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://todo-lac-five-94.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-});
-app.options('*', cors());
+
+const router = express.Router();
+
 const getCollection = () => {
     const client = getConnectedClient();
-    const collection = client.db("todosdb").collection("todos");
-    return collection;
-}
+    return client.db("todosdb").collection("todos");
+};
 
 // GET /todos
 router.get("/todos", async (req, res) => {
     const collection = getCollection();
     const todos = await collection.find({}).toArray();
-
     res.status(200).json(todos);
 });
 
@@ -34,13 +22,12 @@ router.post("/todos", async (req, res) => {
     let { todo } = req.body;
 
     if (!todo) {
-        return res.status(400).json({ mssg: "error no todo found"});
+        return res.status(400).json({ mssg: "error no todo found" });
     }
 
-    todo = (typeof todo === "string") ? todo : JSON.stringify(todo);
+    todo = typeof todo === "string" ? todo : JSON.stringify(todo);
 
     const newTodo = await collection.insertOne({ todo, status: false });
-
     res.status(201).json({ todo, status: false, _id: newTodo.insertedId });
 });
 
@@ -50,7 +37,6 @@ router.delete("/todos/:id", async (req, res) => {
     const _id = new ObjectId(req.params.id);
 
     const deletedTodo = await collection.deleteOne({ _id });
-
     res.status(200).json(deletedTodo);
 });
 
@@ -61,11 +47,10 @@ router.put("/todos/:id", async (req, res) => {
     const { status } = req.body;
 
     if (typeof status !== "boolean") {
-        return res.status(400).json({ mssg: "invalid status"});
+        return res.status(400).json({ mssg: "invalid status" });
     }
 
     const updatedTodo = await collection.updateOne({ _id }, { $set: { status: !status } });
-
     res.status(200).json(updatedTodo);
 });
 
