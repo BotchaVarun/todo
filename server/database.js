@@ -9,7 +9,9 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
-
+const express=require('express');
+const app = express();
+app.use(express.json());
 const options = {
     serverApi: {
         version: ServerApiVersion.v1,
