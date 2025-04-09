@@ -2,7 +2,15 @@ const express = require("express");
 const router = express.Router();
 const { getConnectedClient } = require("./database");
 const { ObjectId } = require("mongodb");
+const cors = require('cors');
 
+// Enable CORS for all requests
+app.use(cors({ 
+    origin: 'https://todo-lac-five-94.vercel.app', // Allow requests from this frontend
+    methods: 'GET, POST, PUT, DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}))
 const getCollection = () => {
     const client = getConnectedClient();
     const collection = client.db("todosdb").collection("todos");
