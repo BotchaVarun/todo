@@ -19,12 +19,14 @@ const port = 8080;
 const cors = require('cors');
 
 // Enable CORS for all requests
-app.use(cors({ 
-    origin: 'https://todo-lac-five-94.vercel.app', // Allow requests from this frontend
-    methods: 'GET, POST, PUT, DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-}))
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://todo-lac-five-94.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
+
 
 async function startServer() {
     await connectToMongoDB();
