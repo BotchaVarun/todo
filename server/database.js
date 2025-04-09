@@ -5,6 +5,7 @@ const uri = "mongodb+srv://varunbotcha:varun123@cluster0.afzwir6.mongodb.net/?re
 
 const express=require('express');
 const app = express();
+const cors=require('cors')
 app.use(express.json());
 const options = {
     serverApi: {
